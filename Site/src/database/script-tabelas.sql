@@ -1,62 +1,52 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+CREATE DATABASE easyfiction;
+USE easyfiction;
 
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+CREATE TABLE fotos_perfil (
+id INT PRIMARY KEY AUTO_INCREMENT,
+personagem VARCHAR (45),
+artista VARCHAR (45),
+caminho_arquivo VARCHAR (100)
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE usuarios (
+id INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR (45),
+dt_Nasc DATE,
+nome_exibicao VARCHAR (45),
+email VARCHAR (100),
+senha VARCHAR (45),
+fk_fotos_perfil INT,
+	FOREIGN KEY (fk_fotos_perfil) REFERENCES fotos_perfil (id)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE titulos (
+id INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR (100),
+roteirista VARCHAR (50),
+desenhista VARCHAR (50),
+descricao VARCHAR (500),
+editora VARCHAR (45)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE atividades (
+id INT AUTO_INCREMENT,
+timestamp_inicio DATETIME default CURRENT_TIMESTAMP,
+timestamp_final DATETIME default CURRENT_TIMESTAMP,
+leitura_concluida TINYINT(1),
+fk_usuarios INT,
+fk_titulos INT,
+	PRIMARY KEY (id, fk_usuarios, fk_titulos),
+	FOREIGN KEY (fk_usuarios) REFERENCES usuarios(id),
+    FOREIGN KEY (fk_titulos) REFERENCES titulos(id)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
-);
-
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+INSERT INTO fotos_perfil VALUES
+	(default, 'Batman', 'Dan Mora', '\assets\fotos_perfil\id1 - Batman.png'),
+    (default, 'Supergirl', 'Bilquis Evely', '\assets\fotos_perfil\id2 - Supergirl.png'),
+    (default, 'Godspeed', 'Carmine Di Giandomenico', '\assets\fotos_perfil\id3 - Godspeed.png'),
+    (default, 'Homem-Aranha', 'Ryan Ottley', '\assets\fotos_perfil\id4 - Homem-Aranha.png'),
+    (default, 'Tempestade', 'Lucas Werneck', '\assets\fotos_perfil\id5 - Tempestade.png'),
+    (default, 'Galactus', 'Leonard Kirk', '\assets\fotos_perfil\id6 - Galactus.png'),
+    (default, 'Optimus Prime', 'Daniel Warren Johnson', '\assets\fotos_perfil\id7 - Optimus Prime.png'),
+    (default, 'Elita One', 'Jorge Corona', '\assets\fotos_perfil\id8 - Elita One.png'),
+    (default, 'Megatron', 'Jorge Corona', '\assets\fotos_perfil\id9 - Megatron.png');

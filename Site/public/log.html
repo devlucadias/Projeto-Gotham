@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Fiction!</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="alerta_erro">
+        <div class="card_erro" id="cardErro">
+            <span id="mensagem_erro"></span>
+        </div>
+    </div>
+
+    <!-- Botão Inicial -->
+    <button id="display_acesso" onclick="viewLogin()">ACESSE JÁ</button>
+
+
+    <!-- Campos de Login -->
+    <span id="display_login" style="display: none;">
+        <p>
+            Faça login
+        </p>
+        <p>
+            <input type="text" id="input_logUser">
+        </p>
+        <p>
+            <input type="text" id="input_logSenha">
+        </p>
+        <p>
+            <button onclick="entrar()">Entrar</button>
+        </p>
+        <p>
+            Primeiro acesso? <a onclick="viewCadastro()">Cadastre-se aqui!</a>
+        </p>
+    </span>
+
+
+    <!-- Campos de Cadastro -->
+    <span id="display_cadastro" style="display: none;">
+        <p>
+            Nome de Usuário:<br>
+            <input type="text" placeholder="Username" id="input_username">
+        </p>
+        <p>
+            Dado de Nascimento:<br>
+            <input type="date" id="input_idade" id="input_dtNasc">
+        </p>
+        <p>
+            Email:<br>
+            <input type="text" placeholder="exemplo@email.com" id="input_email">
+        </p>
+        <p>
+            Senha:<br>
+            <input type="text" placeholder="Mínimo de 8 caracteres" id="input_senha">
+        </p>
+        <p>
+            Confirmar Senha:<br>
+            <input type="text" placeholder="Informe a senha novamente" id="input_confirmSenha">
+        </p>
+        <p>
+            <button onclick="cadastrar()">Cadastrar</button>
+        </p>
+    </span>
+</body>
+</html>
+<script>
+    // Transição de campos
+    var botaoAcesso = document.getElementById("display_acesso");
+    var camposLogin = document.getElementById("display_login");
+    var camposCadastro = document.getElementById("display_cadastro");
+    
+    function viewLogin() {
+        // Transição para campo: Login
+        botaoAcesso.style.display = "none";
+        camposLogin.style.display = "block";
+
+    }
+    function viewCadastro() {
+        // Transição para campo: Cadastro
+        camposLogin.style.display = "none";
+        camposCadastro.style.display ="block";
+
+    }
+    function cadastrar() {
+        // Captação de campos do cadastro
+        var usernameVar = input_username.value;
+        var dtNascVar = input_dtNasc.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+        var confirmSenhaVar = input_confirmSenha.value;
+
+        // Validações dos campos: Preenchimento completo
+        if (
+            nomeVar == "" ||
+            sobrenomeVar == "" ||
+            usernameVar == "" ||
+            dtNascVar == "" ||
+            emailVar == "" ||
+            senhaVar == "" ||
+            confirmSenhaVar == ""
+        ) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Preencha todos os campos)";
+
+            finalizarAguardar();
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        // Validação dos campos: Senhas Identicas
+        if (
+            confirmSenhaVar != senhaVar
+        ) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(As senhas devem ser iguais)";
+
+            finalizarAguardar();
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);  
+        }
+
+        fetch(
+            "/usuarios/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nomeServer: nomeVar,
+                    sobrenomeServer: sobrenomeVar,
+                    dtNascServer: dtNascServerVar,
+                    emailServer: emailVar,
+                    senhaServer: senhaVar,
+                }),
+            }
+        )
+
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                cardErro.style.display = "block";
+
+                mensagem_erro.innerHTML =
+                    "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                setTimeout(() => {
+                    botaoAcesso.style.display = "none";
+                    camposLogin.style.display = "block";
+                }, "2000");
+
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+        
+        botaoAcesso.style.display = "none";
+        camposLogin.style.display = "block";
+    }
+
+    function entrar() {
+        aguardar();
+
+        var logUserVar = input_logUser.value;
+        var logSenhaVar = input_logSenha.value;
+
+        if (logUserVar == "" || logSenhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", logUserVar);
+        console.log("FORM SENHA: ", logSenhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                usernameServer: logUserVar,
+                senhaServer: logSenhaVar
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.username;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "./dashboard/cards.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none";
+    }
+</script>
