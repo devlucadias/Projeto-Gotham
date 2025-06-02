@@ -1,0 +1,71 @@
+.tela_inicial{
+    max-height: fit-content;
+    max-width: fit-content;
+}
+
+.conteudo{
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.conteudo .container{
+    position: fixed;
+    z-index: 1;
+    width: 50%;
+    height: 500px;
+    border: 10px solid blue;
+    justify-content: center;
+    align-content: center;
+}
+.conteudo .container .logo{
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    justify-content: center;
+    width: 50%;
+    height: 400px;
+}
+.slider_background{
+    position: fixed;
+    z-index: -1;
+    display: flex;
+    border: 10px solid red;
+    width: 100%;
+    height: var(--height);
+    overflow: hidden;
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 10% 90%,
+        transparent
+    );
+}
+.slider_background .lista1{
+    display: flex;
+    width: 100%;
+    min-width: calc(var(--width) * var(--quantidade));
+    position: relative;
+}
+.slider_background .lista1 .item{
+    width: var(--width);
+    height: var(--height);
+    position: absolute;
+    left: 60%;
+    animation: autoRun 10s linear infinite;
+    animation-delay: calc( (10s / var(--quantidade)) * (var(--position) - 1) );
+}
+.slider_background .lista1 .item img{
+    width: 100%;
+}
+@keyframes autoRun{
+    from{
+        left: 60%;
+    } to {
+        left: calc(var(--width) * -1);
+    }
+}
