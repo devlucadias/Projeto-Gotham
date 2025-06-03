@@ -5,19 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Easy-Fiction!</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="fundo_padrao">
-    <header class="nav_head">
-        <nav class="nav_links">
-            <a class="nav_logo" href="home.html"><img src="assets/logo.png"></a>
-            <ul class="nav_list">
-                <li><a>Títulos</a></li>
-                <li><a>Sobre Mim</a></li>
-                <li><a>Perfil</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-    </main>
+<body class="home_background">
+    <nav class="menu">
+        <div class="logo" href="home.html">
+            <img src="assets/logo.png">
+        </div>
+
+        <div class="menu-links">
+            <div class="menu-links-direita  menu-dash">
+                <a href="comic.html" class="menu-opcoes menu-opcoes-dash">títulos</a>
+                <a href="profile.html" class="menu-opcoes menu-opcoes-dash">bem vindo,  <span id="b_usuario"></span></a>
+            </div>
+            <span class="menu-barra">|</span>
+        </div>
+    </nav>
+        <div class="slider2">
+            <div class="lista2">
+                <input type="radio" name="slide" id="img01" checked>
+                <input type="radio" name="slide" id="img02">
+
+                <div class="imagens">
+                    <a class="img01" href=""><img src="assets/slider2/slider_1.png"></a>
+                    <a class="img02" href="comic.html"><img src="assets/slider2/slider2.png"></a>
+                </div>
+            </div>
+            <div class="dots">
+                <label for="img01"></label>
+                <label for="img02"></label>
+            </div>
+        </div>
 </body>
 </html>
+<script>
+    b_usuario.innerHTML = sessionStorage.EXIBICAO_USUARIO;
+</script>

@@ -3,9 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy Fiction!</title>
+    <title>Easy-Fiction!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    
+<body class="home_background">
+    <nav class="menu">
+        <div class="logo" href="home.html">
+            <img src="assets/logo.png">
+        </div>
+
+        <div class="menu-links">
+            <div class="menu-links-direita  menu-dash">
+                <a href="comic.html" class="menu-opcoes menu-opcoes-dash">títulos</a>
+                <a href="profile.html" class="menu-opcoes menu-opcoes-dash">bem vindo,  <span id="b_usuario"></span></a>
+            </div>
+            <span class="menu-barra">|</span>
+        </div>
+    </nav>
+        <div class="slider2">
+            <div class="lista2">
+                <input type="radio" name="slide" id="img01"checked>
+                <input type="radio" name="slide" id="img02">
+                <input type="radio" name="slide" id="img03">
+                <input type="radio" name="slide" id="img04">
+                <input type="radio" name="slide" id="img05">
+                <input type="radio" name="slide" id="img06">
+                <input type="radio" name="slide" id="img07">
+                <input type="radio" name="slide" id="img08">
+                <input type="radio" name="slide" id="img09">
+                <input type="radio" name="slide" id="img10">
+                <input type="radio" name="slide" id="img11">
+                <input type="radio" name="slide" id="img12">
+                <input type="radio" name="slide" id="img13">
+
+                <div class="imagens">
+                    <img src="assets/quadrinhos/1/pg01.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg02.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg03.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg04.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg05.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg06.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg07.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg08.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg09.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg10.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg11.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg12.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg13.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg14.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg15.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg16.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg17.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg18.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg19.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg20.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg21.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg22.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg23.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg24.jpg" class="imagens">
+                    <img src="assets/quadrinhos/1/pg25.jpg" class="imagens">
+                </div>
+            </div>
+            <div class="dots">
+                <label for="img01"></label>
+                <label for="img02"></label>
+                <label for="img03"></label>
+                <label for="img04"></label>
+                <label for="img05"></label>
+                <label for="img06"></label>
+                <label for="img07"></label>
+                <label for="img08"></label>
+                <label for="img09"></label>
+                <label for="img10"></label>
+                <label for="img11"></label>
+                <label for="img12"></label>
+                <label for="img13"></label>
+            </div>
+        </div>
 </body>
 </html>
+<script>
+    b_usuario.innerHTML = sessionStorage.EXIBICAO_USUARIO;
+</script>

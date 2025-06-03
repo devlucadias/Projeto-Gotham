@@ -64,6 +64,21 @@
             Nome de Usuário:<br>
             <input type="text" placeholder="Nome de Exibição" id="input_usuario">
         </p>
+        <p>Selecione sua foto de perfil
+            <select id="select_foto_perfil" onchange="selectFoto()">
+                <option value="1">Batman</option>
+                <option value="2">Supergirl</option>
+                <option value="3">Godspeed</option>
+                <option value="4">Homem-Aranha</option>
+                <option value="5">Tempestade</option>
+                <option value="6">Galactus</option>
+                <option value="7">Optimus Prime</option>
+                <option value="8">Elita One</option>
+                <option value="9">Megatron</option>
+            </select>
+            <div id="display_foto" class="foto_inicio">
+            </div>
+        </p>
         <p>
             Nome Completo:<br>
             <input type="text" placeholder="Nome" id="input_nome">
@@ -93,7 +108,6 @@
         // Transição para campo: Login
         botaoAcesso.style.display = "none";
         camposLogin.style.display = "block";
-
     }
     function voltar() {
         // Transição para campo: Cadastro para Login
@@ -106,12 +120,19 @@
         camposCadastro.style.display ="block";
 
     }
+    function selectFoto() {
+        var foto = document.getElementById("select_foto_perfil").value;
+        var display_foto = document.getElementById("display_foto");
+
+        display_foto.innerHTML = `<img src="assets/fotos_perfil/${foto}.png" alt="">`;
+    }
     function cadastrar() {
         // Captação de campos do cadastro
         var usuarioVar = input_usuario.value;
         var nomeVar = input_nome.value;
         var emailVar = input_email.value;
         var senhaVar = input_senha.value;
+
 
         fetch(
             "/usuarios/cadastrar", {
@@ -133,7 +154,7 @@
 
             if (resposta.ok) {
                 setTimeout(() => {
-                    botaoAcesso.style.display = "none";
+                    camposCadastro.style.display = "none";
                     camposLogin.style.display = "block";
                 }, "2000");
             } else {
@@ -171,7 +192,7 @@
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    sessionStorage.EXIBICAO_USUARIO = json.nome_exibicao;
+                    sessionStorage.EXIBICAO_USUARIO = json.usuario;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
 
