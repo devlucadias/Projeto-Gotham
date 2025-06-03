@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy-Fiction!</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/sessao.js"></script>
+</head>
+<body class="fundo_padrao">
+    <!-- Conteudo a Esquerda-->
+    <div class="conteudo">
+    <!-- Logo -->
+    <div class="container">
+        <div class="logo_inicio"><img src="assets/logo.png"></div>
+    </div>
+
+    <!-- Slider de Fundo-->
+    <div class="slider_background" style="
+        --width: 360px;
+        --height: 500px;
+        --quantidade: 3;
+    ">
+        <div class="lista1">
+            <div class="item" style="--position: 1;"><img src="assets/slider1/slider1_1.jpg"></div>
+            <div class="item" style="--position: 2;"><img src="assets/slider1/slider1_2.jpg"></div>
+            <div class="item" style="--position: 3;"><img src="assets/slider1/slider1_3.jpg"></div>
+        </div>
+    </div>
+    </div>
+    <!-- Conteudo a Direita-->
+    <div class="campos">
+
+    <!-- Botão Inicial -->
+    <button class="botao" id="display_acesso" onclick="viewLogin()">ACESSE JÁ</button>
+
+
+    <!-- Campos de Login -->
+    <span id="display_login" style="display: none;">
+        <p>
+            Faça login
+        </p>
+        <p>
+            <input type="text" id="input_logUser">
+        </p>
+        <p>
+            <input type="text" id="input_logSenha">
+        </p>
+        <p>
+            <button onclick="entrar()">Entrar</button>
+        </p>
+        <p>
+            Primeiro acesso? <a class="link_cadastro" onclick="viewCadastro()">Cadastre-se aqui!</a>
+        </p>
+    </span>
+
+
+    <!-- Campos de Cadastro -->
+    <span id="display_cadastro" style="display: none;">
+        <p>
+            <button onclick="voltar()">Voltar</button>
+        </p>
+        <p>
+            Nome de Usuário:<br>
+            <input type="text" placeholder="Nome de Exibição" id="input_usuario">
+        </p>
+        <p>
+            Nome Completo:<br>
+            <input type="text" placeholder="Nome" id="input_nome">
+        </p>
+        <p>
+            Email:<br>
+            <input type="text" placeholder="exemplo@email.com" id="input_email">
+        </p>
+        <p>
+            Senha:<br>
+            <input type="text" placeholder="Mínimo de 8 caracteres" id="input_senha">
+        </p>
+        <p>
+            <button onclick="cadastrar()">Cadastrar</button>
+        </p>
+    </span>
+    </div>
+</body>
+</html>
+<script>
+    // Transição de campos
+    var botaoAcesso = document.getElementById("display_acesso");
+    var camposLogin = document.getElementById("display_login");
+    var camposCadastro = document.getElementById("display_cadastro");
+    
+    function viewLogin() {
+        // Transição para campo: Login
+        botaoAcesso.style.display = "none";
+        camposLogin.style.display = "block";
+
+    }
+    function voltar() {
+        // Transição para campo: Cadastro para Login
+        camposLogin.style.display = "block";
+        camposCadastro.style.display ="none";
+    }
+    function viewCadastro() {
+        // Transição para campo: Cadastro
+        camposLogin.style.display = "none";
+        camposCadastro.style.display ="block";
+
+    }
+    function cadastrar() {
+        // Captação de campos do cadastro
+        var usuarioVar = input_usuario.value;
+        var nomeVar = input_nome.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+
+        fetch(
+            "/usuarios/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    usuarioServer: usuarioVar,
+                    nomeServer: nomeVar,
+                    emailServer: emailVar,
+                    senhaServer: senhaVar,
+                }),
+            }
+        )
+
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                setTimeout(() => {
+                    botaoAcesso.style.display = "none";
+                    camposLogin.style.display = "block";
+                }, "2000");
+            } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+        
+        botaoAcesso.style.display = "none";
+        camposLogin.style.display = "block";
+    }
+
+    function entrar() {
+        var logUserVar = input_logUser.value;
+        var logSenhaVar = input_logSenha.value;
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                usuarioServer: logUserVar,
+                senhaServer: logSenhaVar
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EXIBICAO_USUARIO = json.nome_exibicao;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "/home.html";
+                    }, 1000);
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+</script>

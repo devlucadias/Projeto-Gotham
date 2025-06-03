@@ -12,7 +12,6 @@ artista VARCHAR (45)
 CREATE TABLE usuarios (
 id INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR (45),
-dt_Nasc DATE,
 nome_exibicao VARCHAR (45),
 email VARCHAR (100),
 senha VARCHAR (45),
@@ -70,7 +69,7 @@ INSERT INTO titulos VALUES
 	(default, 'Tempestade', 'Murewa Ayodele', 'Lucas Werneck',
 		'Ororo Munroe viveu muitas vidas. Ela foi uma ladra, uma deusa, uma X-Men, uma rainha e agora... uma Vingadora! Ela é um mutante nível omega, sendo a mais respeitada e influente porta voz mutante no cenário mundial, ela pretende ser uma força de mudança positiva. Porém um grande colapso em uma instalação nuclear na cidade de Oklahoma tira Tempestade de seu santuário em Atlanta e a leva para um conflito moral que testará sua determinação!',
         'Marvel', 1, 29);
-DROP TABLES titulos;
+
 -- Marcando um confere
 SELECT * FROM fotos_perfil;
 SELECT * FROM titulos;

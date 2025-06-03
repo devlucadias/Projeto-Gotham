@@ -1,16 +1,16 @@
 var usuarioModel = require("../models/usuarioModel");
 
 function autenticar(req, res) {
-    var email = req.body.emailServer;
+    var usuario = req.body.usuarioServer;
     var senha = req.body.senhaServer;
 
-    if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+    if (usuario == undefined) {
+        res.status(400).send("Usuario não encontrado!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
 
-        usuarioModel.autenticar(email, senha)
+        usuarioModel.autenticar(usuario, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -20,7 +20,8 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
                         if (resultadoAutenticar.length > 0) {
                                 res.json({
-                                    id: resultadoAutenticar[0].id,
+                                        id: resultadoAutenticar[0].id,
+                                        usuario: resultadoAutenticar[0].nome_exibicao,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
                                         senha: resultadoAutenticar[0].senha
@@ -49,18 +50,9 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var usuario = req.body.usuarioServer;
 
-    // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está indefinido!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está indefinido!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
-    } else {
-
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
+        usuarioModel.cadastrar(nome, usuario, email, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -76,7 +68,6 @@ function cadastrar(req, res) {
                 }
             );
     }
-}
 
 module.exports = {
     autenticar,
